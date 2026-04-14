@@ -1,55 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
-import { DashboardComponent } from './dashboard/dashboard';
-import { TransactionFormComponent } from './transaction-form/transaction-form';
-import { TransactionListComponent } from './transaction-list/transaction-list';
-import { CategoryManagerComponent } from './category-manager/category-manager';
-import { TransactionFiltersComponent } from './transaction-filters/transaction-filters';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    DashboardComponent,
-    TransactionFormComponent,
-    TransactionListComponent,
-    CategoryManagerComponent,
-    TransactionFiltersComponent
+    RouterModule
   ],
   template: `
-  <div class="container">
-
-    <h1>💰 Expense Tracker</h1>
-
-    <div class="grid">
-
-      <div class="card">
-        <app-dashboard />
-      </div>
-
-      <!-- 🔥 ADD FILTERS HERE -->
-      <div class="card full">
-        <app-transaction-filters />
-      </div>
-
-      <div class="card">
-        <app-category-manager />
-      </div>
-
-      <div class="card">
-        <app-transaction-form #formRef />
-      </div>
-
-      <div class="card full">
-        <app-transaction-list
-          (edit)="formRef.editTransaction($event)">
-        </app-transaction-list>
-      </div>
-
-    </div>
-
-  </div>
-`,
+  @if (authService.currentUser()) {
+    <nav>
+      <a routerLink="/">📊 Dashboard</a>
+      <a routerLink="/transactions">📈 Transactions</a>
+      <a routerLink="/new-transaction">➕ Add</a>
+      <a routerLink="/categories">📂 Categories</a>
+      <a routerLink="/profile">👤 Profile</a>
+      <button (click)="logout()">Logout</button>
+    </nav>
+  }
+  <router-outlet />
+  `,
   styleUrls: ['./app.css']
 })
-export class AppComponent {}
+export class AppComponent {
+  authService = inject(AuthService);
+  private router = inject(Router);
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}

@@ -6,10 +6,13 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  onSnapshot
+  onSnapshot,
+  getDoc,
+  setDoc
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { db } from '../firebase'; // <-- your initialized Firestore instance
+import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class FirestoreService {
@@ -44,5 +47,21 @@ export class FirestoreService {
   deleteItem(path: string, id: string) {
     const ref = doc(db, path, id);
     return deleteDoc(ref);
+  }
+
+  async getUser(uid: string): Promise<User> {
+    const ref = doc(db, 'users', uid);
+    const snapshot = await getDoc(ref);
+    if (snapshot.exists()) {
+      return { uid, ...snapshot.data() } as User;
+    } else {
+      throw new Error('User not found');
+    }
+  }
+
+  async saveUser(user: User): Promise<void> {
+    const ref = doc(db, 'users', user.uid);
+    const { uid, ...data } = user;
+    await setDoc(ref, data);
   }
 }

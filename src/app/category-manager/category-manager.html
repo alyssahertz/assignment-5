@@ -1,17 +1,76 @@
-<h2>📂 Categories</h2>
+<h2>📂 Categories & Budgets</h2>
 
+<!-- Add Category Form -->
 <form [formGroup]="form" (ngSubmit)="add()" class="cat-form">
   <input formControlName="name" placeholder="Category name" />
-
   <input type="color" formControlName="color" />
-
   <button type="submit">Add Category</button>
 </form>
 
+<!-- Categories List -->
 <div class="cat-list">
-  <div class="cat-item" *ngFor="let c of service.categories()" [style.background]="c.color">
-    <span>{{ c.name }}</span>
+  @for (c of categories(); track c.id) {
+    <div class="cat-item" [style.background]="c.color">
+      <span>{{ c.name }}</span>
+      @if (!c.isDefault) {
+        <button (click)="delete(c.id)" class="delete-btn">❌</button>
+      }
+    </div>
+  }
+</div>
 
-    <button *ngIf="!c.isDefault" (click)="delete(c.id)">❌</button>
-  </div>
+<!-- Budget Management Section -->
+<div class="budget-management">
+  <h3>💰 Category Budgets</h3>
+
+  <button class="toggle-btn" (click)="showBudgetForm = !showBudgetForm">
+    {{ showBudgetForm ? 'Hide' : 'Set Budget' }}
+  </button>
+
+  <!-- Set Budget Form -->
+  @if (showBudgetForm) {
+    <form [formGroup]="budgetForm" (ngSubmit)="setBudget()" class="budget-form">
+      <div>
+        <label for="category">Category:</label>
+        <select id="category" formControlName="category">
+          <option value="">Select a category</option>
+          @for (cat of categories(); track cat.id) {
+            <option [value]="cat.name">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="monthlyBudget">Monthly Budget ($):</label>
+        <input
+          id="monthlyBudget"
+          type="number"
+          formControlName="monthlyBudget"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+        />
+      </div>
+
+      <button type="submit" [disabled]="budgetForm.invalid">Set Budget</button>
+    </form>
+  }
+
+  <!-- Budgets List -->
+  @if (budgets().length > 0) {
+    <div class="budgets-list">
+      <h4>Current Budgets:</h4>
+      @for (budget of budgets(); track budget.id) {
+        <div class="budget-item">
+          <div class="budget-info">
+            <strong>{{ budget.category }}</strong
+            >: ${{ budget.monthlyBudget.toFixed(2) }}/month
+          </div>
+          <button (click)="deleteBudget(budget.id!)" class="delete-btn">❌</button>
+        </div>
+      }
+    </div>
+  } @else if (!showBudgetForm) {
+    <p class="no-budgets">No budgets set yet</p>
+  }
 </div>

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { TransactionService } from '../services/transaction';
 import { CategoryService } from '../services/category';
+import { AuthService } from '../services/auth';
 
 type TransactionForm = {
   amount: number;
@@ -21,6 +22,8 @@ type TransactionForm = {
   styleUrls: ['./transaction-form.css']
 })
 export class TransactionFormComponent {
+
+  private authService = inject(AuthService);
 
   editingId: string | null = null;
 
@@ -54,7 +57,8 @@ export class TransactionFormComponent {
 
     const raw = this.form.getRawValue();
 
-    const data: TransactionForm = {
+    const data: TransactionForm & { userId: string } = {
+      userId: this.authService.currentUser()!.uid,
       amount: raw.amount,
       category: raw.category,
       date: raw.date,

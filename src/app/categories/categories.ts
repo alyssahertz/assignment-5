@@ -5,13 +5,13 @@ import { CategoryService } from '../services/category';
 import { BudgetService } from '../services/budget';
 
 @Component({
-  selector: 'app-category-manager',
+  selector: 'app-categories',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './category-manager.html',
-  styleUrl: './category-manager.css'
+  templateUrl: './categories.html',
+  styleUrl: './categories.css'
 })
-export class CategoryManagerComponent {
+export class CategoriesComponent {
   private categoryService = inject(CategoryService);
   private budgetService = inject(BudgetService);
 

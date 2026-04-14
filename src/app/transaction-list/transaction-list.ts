@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, inject, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TransactionService } from '../services/transaction';
 import { CategoryService } from '../services/category';
+import { BudgetService } from '../services/budget';
 
 @Component({
   selector: 'app-transaction-list',
@@ -12,6 +13,8 @@ import { CategoryService } from '../services/category';
   styleUrls: ['./transaction-list.css']
 })
 export class TransactionListComponent {
+  private transactionService = inject(TransactionService);
+  private budgetService = inject(BudgetService);
 
   @Output() edit = new EventEmitter<any>();
 
@@ -30,6 +33,20 @@ export class TransactionListComponent {
       .find(c => c.name === categoryName);
 
     return category?.color || '#3498db';
+  }
+
+  getCategoryBudget(categoryName: string): number {
+    return this.budgetService.getBudgetForCategory(categoryName);
+  }
+
+  getCategoryBudgetStatus(categoryName: string): string {
+    const budget = this.getCategoryBudget(categoryName);
+    if (budget === 0) return 'no-budget';
+
+    const budgetInfo = this.transactionService.getCategoryBudgetVsActual(categoryName, budget);
+    if (budgetInfo.isOverBudget) return 'over-budget';
+    if (budgetInfo.isNearBudget) return 'near-budget';
+    return 'on-track';
   }
 
   delete(id: string) {

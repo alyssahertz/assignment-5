@@ -1,18 +1,171 @@
-<h2>📊 Dashboard</h2>
+<h2>📊 Dashboard & Analytics</h2>
 
+<!-- Budget Alerts -->
+@if (categoryBudgetAlerts.length > 0) {
+  <div class="alerts-section">
+    <h3>⚠️ Budget Alerts</h3>
+    @for (alert of categoryBudgetAlerts; track alert.category) {
+      <div class="alert-card" [class.over-budget]="alert.isOverBudget">
+        <div class="alert-header">
+          <span class="alert-title">{{ alert.category }}</span>
+          <span
+            class="alert-badge"
+            [class.near]="alert.isNearBudget"
+            [class.over]="alert.isOverBudget"
+          >
+            {{ alert.isOverBudget ? 'Over Budget' : 'Nearing Budget' }}
+          </span>
+        </div>
+        <div class="alert-content">
+          <p>
+            <strong>Budget:</strong> ${{ alert.budget.toFixed(2) }} | <strong>Spent:</strong> ${{
+              alert.spent.toFixed(2)
+            }}
+          </p>
+          <p class="percentage" [class.over-budget]="alert.isOverBudget">
+            {{ alert.percentUsed }}% used
+          </p>
+          @if (alert.isOverBudget) {
+            <p class="warning-message">
+              You've exceeded your budget by ${{ (alert.spent - alert.budget).toFixed(2) }}
+            </p>
+          } @else {
+            <p class="warning-message">You have ${{ alert.remaining.toFixed(2) }} remaining</p>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}
+
+<!-- Summary Cards -->
 <div class="stats">
   <div class="box income">
-    <h3>Income</h3>
-    <p>{{ income }}</p>
+    <h3>Total Income</h3>
+    <p>${{ income.toFixed(2) }}</p>
   </div>
 
   <div class="box expense">
-    <h3>Expense</h3>
-    <p>{{ expense }}</p>
+    <h3>Total Expenses</h3>
+    <p>${{ expense.toFixed(2) }}</p>
   </div>
 
   <div class="box balance">
     <h3>Balance</h3>
-    <p>{{ balance }}</p>
+    <p>${{ balance.toFixed(2) }}</p>
+  </div>
+</div>
+
+<!-- Monthly Summary -->
+<div class="monthly-summary">
+  <h3>This Month</h3>
+  <div class="monthly-cards">
+    <div class="monthly-card">
+      <h4>🔼 Income</h4>
+      <p>${{ currentMonthIncome.toFixed(2) }}</p>
+    </div>
+    <div class="monthly-card">
+      <h4>🔽 Expenses</h4>
+      <p>${{ currentMonthSpending.toFixed(2) }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts">
+  <!-- Pie Chart: Category-wise Spending -->
+  <div class="chart-container pie-chart-container">
+    <h3>Category-wise Spending (This Month)</h3>
+    @if (spendingByCategory.length > 0) {
+      <svg viewBox="0 0 200 200" width="200" height="200" class="pie-chart">
+        @for (slice of getPieSlices(); track slice.category) {
+          <path
+            [attr.d]="getPieSlicePath(slice)"
+            [attr.fill]="slice.color"
+            [attr.stroke]="'white'"
+            stroke-width="2"
+            opacity="0.85"
+          />
+        }
+      </svg>
+      <div class="pie-legend">
+        @for (item of spendingByCategory; track item.category; let i = $index) {
+          <div class="legend-item">
+            <span class="color-box" [style.background-color]="getPieSlices()[i]?.color"></span>
+            <span>{{ item.category }}: ${{ item.amount.toFixed(2) }}</span>
+          </div>
+        }
+      </div>
+    } @else {
+      <p>No expense data this month</p>
+    }
+  </div>
+
+  <!-- Bar Chart: Monthly Income vs Expense -->
+  <div class="chart-container bar-chart-container">
+    <h3>Income vs Expense (Last 6 Months)</h3>
+    <div class="bar-chart">
+      @for (month of getBarChartData(); track month.month) {
+        <div class="bar-group">
+          <div class="bar-pair">
+            <div
+              class="bar income-bar"
+              [style.height.px]="month.incomeHeight"
+              title="Income: ${{ month.income.toFixed(2) }}"
+            ></div>
+            <div
+              class="bar expense-bar"
+              [style.height.px]="month.expenseHeight"
+              title="Expense: ${{ month.expense.toFixed(2) }}"
+            ></div>
+          </div>
+          <label>{{ month.month }}</label>
+        </div>
+      }
+    </div>
+    <div class="bar-legend">
+      <div class="legend-item">
+        <span class="color-box income-bar-sample"></span>
+        <span>Income</span>
+      </div>
+      <div class="legend-item">
+        <span class="color-box expense-bar-sample"></span>
+        <span>Expense</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Budget vs Actual -->
+<div class="budget-section">
+  <h3>Budget vs Actual (This Month)</h3>
+  <div class="budget-card">
+    <div class="budget-info">
+      <p><strong>Budget:</strong> ${{ budgetVsActual.budget.toFixed(2) }}</p>
+      <p><strong>Spent:</strong> ${{ budgetVsActual.spent.toFixed(2) }}</p>
+      <p>
+        <strong>Remaining:</strong>
+        <span [class.over-budget]="budgetVsActual.isOverBudget"
+          >${{ budgetVsActual.remaining.toFixed(2) }}</span
+        >
+      </p>
+    </div>
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [class.over-budget]="budgetVsActual.isOverBudget"
+        [style.width.%]="Math.min(budgetVsActual.percentUsed, 100)"
+      ></div>
+    </div>
+    <p class="budget-percentage" [class.over-budget]="budgetVsActual.isOverBudget">
+      {{ budgetVsActual.percentUsed }}% of budget used
+    </p>
+    @if (budgetVsActual.isOverBudget) {
+      <p class="warning">
+        ⚠️ You've exceeded your budget by ${{
+          (budgetVsActual.spent - budgetVsActual.budget).toFixed(2)
+        }}
+      </p>
+    }
   </div>
 </div>

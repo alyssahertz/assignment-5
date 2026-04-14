@@ -1,36 +1,246 @@
-.cat-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+.section {
+  margin-bottom: 30px;
 }
 
-input {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
+.section h3 {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.cat-form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 13px;
+}
+
+.form-group input {
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 button {
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    background: #3498db;
-    color: white;
-    cursor: pointer;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 .cat-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
 .cat-item {
-    padding: 8px 12px;
-    border-radius: 20px;
-    color: white;
+  padding: 12px 16px;
+  border-radius: 25px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+}
+
+.cat-item:hover {
+  transform: translateY(-3px);
+}
+
+.cat-item button {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+.cat-item button:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.budget-form {
+  background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.budget-item {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #667eea;
+  flex: 1;
+}
+
+.budget-item > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.budget-item button {
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+/* Budget Management Styles */
+.budget-management {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.budget-management h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.toggle-btn {
+    background: #27ae60;
+    margin-bottom: 15px;
+}
+
+.toggle-btn:hover {
+    background-color: #229954;
+}
+
+.budget-form {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #27ae60;
+}
+
+.budget-form div {
+    margin-bottom: 12px;
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+}
+
+.budget-form label {
     font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.budget-form select,
+.budget-form input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.budget-form select:focus,
+.budget-form input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.budget-form button {
+    background: #27ae60;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.budget-form button:hover {
+    background-color: #229954;
+}
+
+.budgets-list {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.budgets-list h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+.budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border-left: 3px solid #3498db;
+}
+
+.budget-info {
+    color: #555;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.no-budgets {
+    color: #999;
+    font-size: 0.9rem;
+    font-style: italic;
 }

@@ -1,0 +1,42 @@
+<div class="transactions-container">
+  <div class="transactions-card">
+    <div class="transactions-header">
+      <h1>📊 All Transactions</h1>
+      <p>View and filter all your financial transactions</p>
+    </div>
+
+    <!-- Transaction Summary Stats -->
+    <div class="transaction-summary">
+      <div class="summary-card income">
+        <h4>Total Income</h4>
+        <p>${{ totalIncome().toFixed(2) }}</p>
+      </div>
+      <div class="summary-card expense">
+        <h4>Total Expenses</h4>
+        <p>${{ totalExpense().toFixed(2) }}</p>
+      </div>
+      <div class="summary-card" [class]="netBalance() >= 0 ? 'income' : 'expense'">
+        <h4>Net Balance</h4>
+        <p>${{ netBalance().toFixed(2) }}</p>
+      </div>
+      <div class="summary-card">
+        <h4>Transaction Count</h4>
+        <p>{{ transactionCount() }}</p>
+      </div>
+    </div>
+
+    <div class="transactions-content">
+      <div class="filters-section">
+        <app-transaction-filters />
+      </div>
+
+      <div class="list-section">
+        <div class="transaction-header">
+          <h2>Transaction History</h2>
+          <div class="transaction-count">{{ transactionCount() }} transactions</div>
+        </div>
+        <app-transaction-list />
+      </div>
+    </div>
+  </div>
+</div>

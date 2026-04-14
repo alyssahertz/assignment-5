@@ -1,0 +1,67 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #fff;
+    padding: 12px 14px;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.category {
+    font-size: 16px;
+}
+
+.meta {
+    font-size: 12px;
+    color: #666;
+}
+
+.notes {
+    margin: 0;
+    font-size: 13px;
+    color: #444;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.amount {
+    font-weight: bold;
+}
+
+.income {
+    color: #2ecc71;
+}
+
+.expense {
+    color: #e74c3c;
+}
+
+button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    transform: scale(1.1);
+}

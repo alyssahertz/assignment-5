@@ -1,0 +1,17 @@
+<h2>📂 Categories</h2>
+
+<form [formGroup]="form" (ngSubmit)="add()" class="cat-form">
+  <input formControlName="name" placeholder="Category name" />
+
+  <input type="color" formControlName="color" />
+
+  <button type="submit">Add Category</button>
+</form>
+
+<div class="cat-list">
+  <div class="cat-item" *ngFor="let c of service.categories()" [style.background]="c.color">
+    <span>{{ c.name }}</span>
+
+    <button *ngIf="!c.isDefault" (click)="delete(c.id)">❌</button>
+  </div>
+</div>

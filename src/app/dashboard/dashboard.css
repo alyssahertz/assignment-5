@@ -1,0 +1,25 @@
+.stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.box {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+}
+
+.income {
+    background: #2ecc71;
+}
+
+.expense {
+    background: #e74c3c;
+}
+
+.balance {
+    background: #3498db;
+}

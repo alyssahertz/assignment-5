@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    font-family: Roboto, Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}

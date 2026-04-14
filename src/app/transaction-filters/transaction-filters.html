@@ -1,0 +1,18 @@
+<h3>🔎 Filters</h3>
+
+<div class="filters">
+  <select [(ngModel)]="service.filters.category">
+    <option value="">All Categories</option>
+    <option *ngFor="let c of categoryService.categories()" [value]="c.name">
+      {{ c.name }}
+    </option>
+  </select>
+
+  <input type="date" [(ngModel)]="service.filters.startDate" />
+  <input type="date" [(ngModel)]="service.filters.endDate" />
+
+  <input type="number" placeholder="Min" [(ngModel)]="service.filters.minAmount" />
+  <input type="number" placeholder="Max" [(ngModel)]="service.filters.maxAmount" />
+
+  <button (click)="clear()">Clear</button>
+</div>

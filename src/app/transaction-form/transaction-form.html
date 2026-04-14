@@ -1,0 +1,30 @@
+<h2>➕ Add Transaction</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form">
+  <input type="number" formControlName="amount" placeholder="Amount" />
+
+  <select formControlName="category">
+    <option value="">Select Category</option>
+
+    <option *ngFor="let c of categoryService.categories()" [value]="c.name">
+      {{ c.name }}
+    </option>
+  </select>
+
+  <input type="date" formControlName="date" />
+
+  <input type="text" formControlName="notes" placeholder="Notes" />
+
+  <select formControlName="type">
+    <option value="Income">Income</option>
+    <option value="Expense">Expense</option>
+  </select>
+
+  <!-- 🔥 Dynamic button -->
+  <button type="submit">
+    {{ editingId ? '✏️ Update Transaction' : '➕ Add Transaction' }}
+  </button>
+
+  <!-- 🔥 Cancel edit -->
+  <button type="button" *ngIf="editingId" (click)="cancelEdit()">❌ Cancel Edit</button>
+</form>

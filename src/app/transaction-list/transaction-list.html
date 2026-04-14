@@ -1,0 +1,37 @@
+<h2>📜 Transactions</h2>
+
+<div class="list">
+  <div
+    class="item"
+    *ngFor="let t of transactions"
+    [style.border-left]="'6px solid ' + getCategoryColor(t.category)"
+  >
+    <!-- LEFT SIDE -->
+    <div class="info">
+      <strong class="category">{{ t.category }}</strong>
+
+      <div class="meta">
+        <span>📅 {{ t.date }}</span>
+      </div>
+
+      <p class="notes">{{ t.notes }}</p>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="actions">
+      <span
+        class="amount"
+        [class.expense]="t.type === 'Expense'"
+        [class.income]="t.type === 'Income'"
+      >
+        {{ t.amount | currency }}
+      </span>
+
+      <!-- EDIT -->
+      <button class="edit" (click)="edit.emit(t)">✏️</button>
+
+      <!-- DELETE -->
+      <button class="delete" (click)="t.id && service.delete(t.id)">🗑</button>
+    </div>
+  </div>
+</div>

@@ -135,8 +135,10 @@ export class TransactionService implements OnDestroy {
     
     return this.transactions()
       .filter(t => {
-        const date = new Date(t.date);
-        return date.getMonth() === currentMonth && 
+        // Fix: Parse date safely assuming YYYY-MM-DD format
+        const [yearStr, monthStr, dayStr] = t.date.split('-');
+        const date = new Date(parseInt(yearStr), parseInt(monthStr) - 1, parseInt(dayStr));
+        return !isNaN(date.getTime()) && date.getMonth() === currentMonth && 
                date.getFullYear() === currentYear &&
                t.type === 'Expense';
       })
@@ -151,8 +153,10 @@ export class TransactionService implements OnDestroy {
     
     return this.transactions()
       .filter(t => {
-        const date = new Date(t.date);
-        return date.getMonth() === currentMonth && 
+        // Fix: Parse date safely assuming YYYY-MM-DD format
+        const [yearStr, monthStr, dayStr] = t.date.split('-');
+        const date = new Date(parseInt(yearStr), parseInt(monthStr) - 1, parseInt(dayStr));
+        return !isNaN(date.getTime()) && date.getMonth() === currentMonth && 
                date.getFullYear() === currentYear &&
                t.type === 'Income';
       })
@@ -169,8 +173,10 @@ export class TransactionService implements OnDestroy {
 
     this.transactions()
       .filter(t => {
-        const date = new Date(t.date);
-        return date.getMonth() === currentMonth && 
+        // Fix: Parse date safely assuming YYYY-MM-DD format
+        const [yearStr, monthStr, dayStr] = t.date.split('-');
+        const date = new Date(parseInt(yearStr), parseInt(monthStr) - 1, parseInt(dayStr));
+        return !isNaN(date.getTime()) && date.getMonth() === currentMonth && 
                date.getFullYear() === currentYear &&
                t.type === 'Expense';
       })

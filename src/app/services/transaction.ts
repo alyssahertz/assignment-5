@@ -197,15 +197,19 @@ export class TransactionService implements OnDestroy {
       
       const income = this.transactions()
         .filter(t => {
-          const d = new Date(t.date);
-          return d.getMonth() === month && d.getFullYear() === year && t.type === 'Income';
+          // Fix: Parse date safely assuming YYYY-MM-DD format
+          const [yearStr, monthStr, dayStr] = t.date.split('-');
+          const d = new Date(parseInt(yearStr), parseInt(monthStr) - 1, parseInt(dayStr));
+          return !isNaN(d.getTime()) && d.getMonth() === month && d.getFullYear() === year && t.type === 'Income';
         })
         .reduce((sum, t) => sum + t.amount, 0);
 
       const expense = this.transactions()
         .filter(t => {
-          const d = new Date(t.date);
-          return d.getMonth() === month && d.getFullYear() === year && t.type === 'Expense';
+          // Fix: Parse date safely assuming YYYY-MM-DD format
+          const [yearStr, monthStr, dayStr] = t.date.split('-');
+          const d = new Date(parseInt(yearStr), parseInt(monthStr) - 1, parseInt(dayStr));
+          return !isNaN(d.getTime()) && d.getMonth() === month && d.getFullYear() === year && t.type === 'Expense';
         })
         .reduce((sum, t) => sum + t.amount, 0);
 

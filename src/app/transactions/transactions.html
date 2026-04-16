@@ -30,12 +30,18 @@
         <app-transaction-filters />
       </div>
 
+      <!-- Fix: Add form for editing -->
+      <div class="form-section">
+        <app-transaction-form #formRef />
+      </div>
+
       <div class="list-section">
         <div class="transaction-header">
           <h2>Transaction History</h2>
           <div class="transaction-count">{{ transactionCount() }} transactions</div>
         </div>
-        <app-transaction-list />
+        <!-- Fix: Bind edit event -->
+        <app-transaction-list (edit)="onEdit($event)" />
       </div>
     </div>
   </div>

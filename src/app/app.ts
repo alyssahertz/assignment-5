@@ -14,7 +14,6 @@ import { AuthService } from './services/auth';
     <nav>
       <a routerLink="/">📊 Dashboard</a>
       <a routerLink="/transactions">📈 Transactions</a>
-      <a routerLink="/new-transaction">➕ Add</a>
       <a routerLink="/categories">📂 Categories</a>
       <a routerLink="/profile">👤 Profile</a>
       <button (click)="logout()">Logout</button>
